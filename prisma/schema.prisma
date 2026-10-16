@@ -1,0 +1,270 @@
+// Prisma schema for the Professional SEO Audit and Analysis Web Application.
+// Database: SQLite (file-based, embedded). Suitable for single-instance deployments.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// =====================================================
+// Websites that the user has audited (one per origin).
+// =====================================================
+model Website {
+  id          String   @id @default(cuid())
+  url         String   @unique // Normalized origin URL (e.g. https://example.com)
+  name        String?  // Optional friendly name
+  favicon     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  lastScanAt  DateTime?
+
+  scans       Scan[]
+  issues      Issue[]
+}
+
+// =====================================================
+// Scan metadata + summary scores. Full page-level results
+// live in ScanPage; aggregated issue findings live in Issue.
+// =====================================================
+model Scan {
+  id            String   @id @default(cuid())
+  websiteId     String
+  website       Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  targetUrl     String
+  status        String   @default("pending") // pending | validating | running | completed | failed | cancelled
+  startedAt     DateTime @default(now())
+  completedAt   DateTime?
+  // JSON-encoded scan configuration (maxPages, maxDepth, etc.)
+  config        String
+  // JSON-encoded summary object: { overallScore, coverage, countsByCategory, countsBySeverity, ... }
+  summary       String?
+  // JSON-encoded validation results from the pre-scan gate
+  validation    String?
+  // Overall SEO health score 0-100
+  overallScore   Int?
+  // Percentage of categories that produced real data (0-100)
+  coverage      Int?
+  // Counters (denormalized for fast dashboard queries)
+  issueCount     Int @default(0)
+  criticalCount  Int @default(0)
+  highCount      Int @default(0)
+  mediumCount    Int @default(0)
+  lowCount       Int @default(0)
+  informationalCount Int @default(0)
+  pagesDiscovered Int @default(0)
+  pagesCrawled   Int @default(0)
+  errorsEncountered Int @default(0)
+  // Provider connection summary snapshot at scan time
+  providersSnapshot String?
+  // Per-category scores (JSON: { technical, onpage, content, performance, offpage, coverage })
+  categoryScores String?
+  // Error message if status = failed
+  errorMessage   String?
+
+  pages         ScanPage[]
+  issues        Issue[]
+  performanceMetrics PerformanceMetric[]
+  backlinks     BacklinkRecord[]
+  keywords      KeywordRecord[]
+
+  @@index([websiteId])
+  @@index([status])
+  @@index([startedAt])
+}
+
+// =====================================================
+// Per-page crawl result. Contains extracted metadata,
+// on-page signals, and technical findings for one URL.
+// =====================================================
+model ScanPage {
+  id           String   @id @default(cuid())
+  scanId       String
+  scan         Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+  url          String
+  finalUrl     String?  // After redirects
+  statusCode   Int?
+  // Page metadata
+  title        String?
+  titleLength  Int?
+  metaDescription String?
+  metaDescriptionLength Int?
+  canonical    String?
+  h1Count      Int @default(0)
+  h2Count      Int @default(0)
+  h3Count      Int @default(0)
+  headingHierarchyOk Boolean @default(true)
+  wordCount    Int @default(0)
+  imageCount   Int @default(0)
+  imagesWithoutAlt Int @default(0)
+  internalLinks Int @default(0)
+  externalLinks Int @default(0)
+  // Indexability / robots
+  robotsAllowed    Boolean @default(true)
+  indexable        Boolean @default(true)
+  // Structured data + social meta (JSON arrays of detected types)
+  schemaTypes      String?
+  openGraphValid   Boolean @default(false)
+  twitterCardValid Boolean @default(false)
+  // Security headers (JSON object)
+  securityHeaders   String?
+  hreflangValid   Boolean @default(true)
+  mixedContent     Boolean @default(false)
+  isHttps          Boolean @default(true)
+  redirectChain    Int @default(0) // number of hops
+  contentType      String?
+  responseTimeMs   Int?
+  // CrawledAt timestamp
+  crawledAt       DateTime @default(now())
+
+  @@index([scanId])
+  @@index([url])
+}
+
+// =====================================================
+// Individual issue finding. One row per detected issue.
+// =====================================================
+model Issue {
+  id          String   @id @default(cuid())
+  scanId      String
+  scan        Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+  websiteId   String
+  website     Website @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  title       String
+  category    String   // technical | onpage | content | performance | backlinks | keywords | localseo
+  severity    String   // critical | high | medium | low | informational
+  confidence  String   // confirmed | likely | heuristic
+  affectedUrl String?
+  description String
+  whyItMatters String
+  evidence    String   // JSON: array of evidence items
+  recommendation String
+  steps       String   // JSON: array of step objects
+  effort      String   // quick | moderate | significant
+  priority    Int @default(50) // 0-100, higher = more urgent
+  status      String   @default("open") // open | in_progress | fixed | ignored
+  source      String   @default("crawler") // crawler | pagespeed | searchconsole | bing | ahrefs | semrush | moz | etc.
+  createdAt   DateTime @default(now())
+
+  @@index([scanId])
+  @@index([websiteId])
+  @@index([severity])
+  @@index([category])
+  @@index([status])
+}
+
+// =====================================================
+// Performance metrics per page (from PageSpeed / Lighthouse).
+// =====================================================
+model PerformanceMetric {
+  id            String   @id @default(cuid())
+  scanId        String
+  scan          Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+  url           String
+  strategy      String   // mobile | desktop
+  // Core Web Vitals
+  lcp           Float? // Largest Contentful Paint (ms)
+  inp           Float? // Interaction to Next Paint (ms)
+  cls           Float? // Cumulative Layout Shift (unitless)
+  fcp           Float? // First Contentful Paint (ms)
+  tbt           Float? // Total Blocking Time (ms)
+  speedIndex    Float? // Speed Index (ms)
+  // Lighthouse category scores (0-100)
+  performanceScore       Int?
+  accessibilityScore     Int?
+  bestPracticesScore     Int?
+  seoScore               Int?
+  // Field vs lab flag
+  hasFieldData           Boolean @default(false)
+  // Opportunities (JSON array)
+  opportunities          String?
+  // Diagnostics (JSON array)
+  diagnostics            String?
+  fetchedAt              DateTime @default(now())
+
+  @@index([scanId])
+  @@index([url])
+}
+
+// =====================================================
+// Backlink records from Ahrefs/Moz/etc. (when configured).
+// =====================================================
+model BacklinkRecord {
+  id            String   @id @default(cuid())
+  scanId        String
+  scan          Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+  source        String   // Provider name
+  referringDomain String?
+  referringUrl  String?
+  anchorText    String?
+  linkType      String?  // dofollow | nofollow | ugc | sponsored
+  firstSeen     String?
+  lastVisited   String?
+  domainRating  Float?
+  urlRating     Float?
+  // JSON: full payload from provider
+  raw           String?
+  fetchedAt     DateTime @default(now())
+
+  @@index([scanId])
+}
+
+// =====================================================
+// Keyword / search visibility records from SearchConsole/Bing/etc.
+// =====================================================
+model KeywordRecord {
+  id            String   @id @default(cuid())
+  scanId        String
+  scan          Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+  source        String   // searchconsole | bing | semrush | ahrefs | etc.
+  query         String
+  page          String?
+  impressions   Int @default(0)
+  clicks        Int @default(0)
+  ctr           Float @default(0)
+  position      Float @default(0)
+  // Date range info
+  dateRange     String?
+  country       String?
+  fetchedAt     DateTime @default(now())
+
+  @@index([scanId])
+  @@index([query])
+}
+
+// =====================================================
+// Encrypted provider configurations (credentials, OAuth state, etc.).
+// Secrets are NEVER stored in plaintext. Encryption key lives in env.
+// =====================================================
+model ProviderConfig {
+  id            String   @id @default(cuid())
+  providerKey   String   @unique // e.g. "pagespeed", "searchconsole", "ahrefs"
+  // Encrypted blob (AES-256-GCM). Contains JSON of credentials.
+  encryptedData String
+  iv            String
+  authTag       String
+  // Non-secret public metadata
+  displayName   String
+  authMethod    String   // api_key | oauth2 | bearer | none
+  // Last connection test result (JSON)
+  lastTestResult String?
+  lastTestedAt   DateTime?
+  lastSuccessAt  DateTime?
+  // Quota / credit info if exposed by the provider (JSON)
+  quotaInfo     String?
+  enabled       Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// =====================================================
+// Application-level settings (theme, defaults, etc.).
+// =====================================================
+model AppSetting {
+  id    String   @id @default(cuid())
+  key   String   @unique
+  value String
+}

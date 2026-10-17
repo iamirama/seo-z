@@ -1,98 +1,181 @@
-ابزار تخصصی آنالیز سئو — وب اپلیکیشن کامل تحلیل سئو
+# 📊 SEO Tools for Jaheshclinic — آنالیز و تحلیل حرفه‌ای SEO
 
-یک برنامه وب مدرن و حرفه‌ای که برای کلینیک ارتوپدی جهش توسعه داده شده اما برای هر وب‌سایت عمومیِ قابل دسترسی، حسابرسی جامع سئو انجام می‌دهد. این پروژه با Next.js 16، TypeScript، Tailwind CSS، Prisma و یک لایه ماژولار یکپارچه‌سازی ارائه‌دهنده‌ها ساخته شده است.
+<div align="center">
 
-> نسخه اختصاصی برای: [جهش کلینیک](https://jaheshclinic.ir)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-امکانات
+**یک اپلیکیشن وب مدرن و حرفه‌ای برای آنالیز جامع SEO که منحصرا برای [کلینیک ارتوپدی جهش](https://jaheshclinic.ir) توسعه داده شده اما برای هر وب‌سایتی قابل استفاده است**
 
-- حالت رایگان-محور: بدون نیاز به هیچ اشتراک پولی سئو کار می‌کند؛ با استفاده از خزنده فنی داخلی سئو + Google PageSpeed Insights (رایگان).
-- یکپارچه‌سازی ماژولار ارائه‌دهنده‌ها با پشتیبانی از 10 ارائه‌دهنده:
-  - رایگان / دارای پلن رایگان: Google PageSpeed Insights، Bing Webmaster Tools
-  - نیازمند OAuth: Google Search Console، Google Analytics Data API (GA4)
-  - تجاری (اختیاری): Ahrefs، Semrush، Moz، DataForSEO، SerpApi، Majestic
-- دروازه اعتبارسنجی اجباری پیش از اسکن: ارائه‌دهنده‌های الزامی باید قبل از شروع اسکن، تست اتصال واقعی را پاس کنند. ارائه‌دهنده‌های اختیاری در صورت خطا به‌صورت Graceful مدیریت می‌شوند.
-- حسابرسی جامع: سئو فنی، سئو On-Page، تحلیل محتوا، عملکرد / Core Web Vitals، تحلیل بک‌لینک، کلمات کلیدی / دیده‌شدن در جستجو.
-- توصیه‌های قابل اجرا: هر یافته شامل مدرک، دلیل اهمیت، راهنمای گام‌به‌گام رفع مشکل، برآورد تلاش و اولویت است.
-- گزارش‌های HTML مستقل: قابل دانلود، مناسب چاپ، با جداول قابل جستجوی مشکلات و امکان خروجی JSON.
-- تاریخچه اسکن و مقایسه: پیشرفت را در طول زمان پیگیری کنید و دو اسکن را مقایسه کنید.
-- امنیت: ذخیره‌سازی رمزنگاری‌شده اعتبارنامه‌ها با AES-256-GCM، دسترسی به رازها فقط در بک‌اند، محافظت در برابر SSRF، رعایت robots.txt، و User-Agent قابل شناسایی برای خزنده.
+[✨ ویژگی‌ها](#-ویژگیها) • [🚀 نصب](#-نصب-و-راهاندازی) • [🔧 پیکربندی](#-پیکربندی-api) • [📡 API](#-مرجع-api) • [🔒 امنیت](#-نکات-امنیتی)
 
-تکنولوژی‌ها
+</div>
 
-- فرانت‌اند: Next.js 16 (App Router)، TypeScript 5، Tailwind CSS 4، shadcn/ui، Zustand، TanStack Query، Recharts، آیکون‌های Lucide
-- بک‌اند: Routeهای API سمت سرور در Next.js، لایه یکپارچه‌سازی ماژولار ارائه‌دهنده‌ها
-- پایگاه‌داده: SQLite از طریق Prisma ORM (فایل‌محور، بدون نیاز به دیتابیس خارجی)
-- خزنده: خزنده HTML داخلی با محافظت SSRF (بدون وابستگی خارجی)
-- گزارش‌سازی: قالب‌های HTML مستقل تولیدشده توسط سرور با CSS، JS و داده‌های جاسازی‌شده
+---
 
-ساختار پروژه
+## 🌟 ویژگی‌ها
 
-```text
+<table>
+<tr>
+<td width="50%">
+
+### 💰 حالت Free-first
+بدون نیاز به هیچ اشتراک پولی SEO کار می‌کند — با استفاده از کراولر داخلی + Google PageSpeed Insights (API رایگان)
+
+### 🧩 معماری ماژولار
+پشتیبانی از **۱۰ ارائه‌دهنده**:
+- 🆓 رایگان: PageSpeed, Bing Webmaster
+- 🔑 OAuth: Search Console, GA4
+- 💎 تجاری: Ahrefs, Semrush, Moz, DataForSEO, SerpApi, Majestic
+
+</td>
+<td width="50%">
+
+### ✅ دروازه اعتبارسنجی پیش از اسکن
+ارائه‌دهندگان **الزامی** باید قبل از شروع اسکن تست واقعی اتصال را پاس کنند. ارائه‌دهندگان اختیاری در صورت خطا به‌صورت نرم مدیریت می‌شوند.
+
+### 📈 ممیزی جامع
+- Technical SEO
+- On-Page SEO
+- تحلیل محتوا
+- Performance / Core Web Vitals
+- تحلیل بک‌لینک
+- کلمات کلیدی و دیده‌شدن در جستجو
+
+</td>
+</tr>
+<tr>
+<td>
+
+### 🎯 توصیه‌های عملی
+هر یافته شامل **شواهد**، **دلیل اهمیت**، **راهنمای گام‌به‌گام رفع**، **برآورد تلاش** و **اولویت** است
+
+### 📄 گزارش‌های HTML مستقل
+کاملاً خودکفا، قابل دانلود، سازگار با چاپ، با جداول قابل جستجو و خروجی JSON
+
+</td>
+<td>
+
+### 📊 تاریخچه و مقایسه اسکن‌ها
+پیشرفت‌ها را در طول زمان ردیابی کرده و دو اسکن را با هم مقایسه کنید
+
+### 🔐 امنیت
+رمزنگاری AES-256-GCM اطلاعات، محافظت در برابر SSRF، احترام به robots.txt، User-Agent شناسایی‌پذیر
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🛠️ تکنولوژی‌های استفاده‌شده
+
+<table align="center">
+<thead>
+<tr>
+<th>لایه</th>
+<th>تکنولوژی‌ها</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🎨 <b>فرانت‌اند</b></td>
+<td>Next.js 16 (App Router), TypeScript 5, Tailwind CSS 4, shadcn/ui, Zustand, TanStack Query, Recharts, Lucide</td>
+</tr>
+<tr>
+<td>⚙️ <b>بک‌اند</b></td>
+<td>Next.js API Routes, لایه یکپارچه‌سازی ارائه‌دهندگان ماژولار</td>
+</tr>
+<tr>
+<td>🗄️ <b>دیتابیس</b></td>
+<td>SQLite از طریق Prisma ORM (فایل‌محور، بدون نیاز به دیتابیس خارجی)</td>
+</tr>
+<tr>
+<td>🕷️ <b>کراولر</b></td>
+<td>کراولر HTML داخلی با محافظت SSRF (بدون وابستگی خارجی)</td>
+</tr>
+<tr>
+<td>📑 <b>گزارش‌دهی</b></td>
+<td>قالب‌های HTML مستقل تولیدشده در سمت سرور با CSS، JS و داده‌های داخلی</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+## 📁 ساختار پروژه
+
+```
 .
 ├── prisma/
-│   └── schema.prisma              # اسکیمای دیتابیس (Website, Scan, Issue, ProviderConfig و غیره)
+│   └── schema.prisma              # اسکیمای دیتابیس (Website, Scan, Issue, ProviderConfig, …)
 ├── src/
 │   ├── app/
-│   │   ├── page.tsx                # شل اصلی با سایدبار + بخش‌ها
-│   │   ├── layout.tsx              # لایوت ریشه
-│   │   └── api/                    # Routeهای REST API
-│   │       ├── dashboard/          # خلاصه داشبورد
-│   │       ├── providers/          # لیست، ذخیره، حذف ارائه‌دهنده‌ها
-│   │       │   └── [name]/test/    # اعتبارسنجی اتصال
-│   │       ├── scans/              # چرخه حیات اسکن
-│   │       │   └── [id]/           # جزئیات اسکن، گزارش، لغو
-│   │       │       └── report/     # تولیدکننده گزارش HTML
-│   │       ├── scans/compare/      # مقایسه اسکن‌ها
-│   │       ├── validate/           # اندپوینت اعتبارسنجی پیش از اسکن
-│   │       └── websites/           # CRUD وب‌سایت‌ها
+│   │   ├── page.tsx               # پوسته اصلی با سایدبار + بخش‌ها
+│   │   ├── layout.tsx             # لایه ریشه
+│   │   └── api/                   # مسیرهای REST API
+│   │       ├── dashboard/         # خلاصه داشبورد
+│   │       ├── providers/         # لیست، ذخیره، حذف ارائه‌دهنده
+│   │       │   └── [name]/test/   # اعتبارسنجی اتصال
+│   │       ├── scans/             # چرخه حیات اسکن
+│   │       │   └── [id]/          # جزئیات، گزارش، لغو
+│   │       │       └── report/    # تولیدکننده گزارش HTML
+│   │       ├── scans/compare/     # مقایسه اسکن‌ها
+│   │       ├── validate/          # اندپوینت اعتبارسنجی پیش از اسکن
+│   │       └── websites/          # CRUD وب‌سایت‌ها
 │   ├── components/
 │   │   ├── layout/sidebar.tsx
-│   │   ├── sections/                # Dashboard, NewAudit, Results, Recommendations, Reports, History, ApiSettings, AppSettings
-│   │   ├── audit/badges.tsx         # SeverityBadge, ConnectionStateBadge
-│   │   └── ui/                     # کامپوننت‌های shadcn/ui
+│   │   ├── sections/              # Dashboard, NewAudit, Results, …
+│   │   ├── audit/badges.tsx       # SeverityBadge, ConnectionStateBadge
+│   │   └── ui/                    # کامپوننت‌های shadcn/ui
 │   └── lib/
-│       ├── types.ts                # تایپ‌های مشترک TypeScript
-│       ├── crawler.ts              # خزنده وب‌سایت با محافظت SSRF
-│       ├── scoring.ts              # سیستم امتیازدهی سئو
+│       ├── types.ts               # تایپ‌های TypeScript مشترک
+│       ├── crawler.ts             # کراولر با محافظت SSRF
+│       ├── scoring.ts             # سیستم امتیازدهی SEO
 │       ├── audit/
-│       │   ├── index.ts            # ماژول‌های حسابرسی (Technical, OnPage, Content, Performance, Backlink, Keyword)
-│       │   └── orchestrator.ts     # هماهنگ‌کننده پایپ‌لاین حسابرسی
-│       ├── providers/               # یکپارچه‌سازی ارائه‌دهنده‌ها
-│       │   ├── base.ts              # کلاس انتزاعی BaseProvider + helper validateProvider
-│       │   ├── registry.ts          # رجیستری ارائه‌دهنده‌ها
-│       │   ├── pagespeed.ts         # Google PageSpeed Insights
-│       │   ├── searchconsole.ts    # Google Search Console (OAuth)
-│       │   ├── analytics.ts         # Google Analytics Data API (GA4, OAuth)
-│       │   ├── bing.ts              # Bing Webmaster Tools
-│       │   ├── ahrefs.ts            # Ahrefs (پولی)
-│       │   ├── semrush.ts           # Semrush (پولی)
-│       │   ├── moz.ts               # Moz (پولی)
+│       │   ├── index.ts           # ماژول‌های ممیزی
+│       │   └── orchestrator.ts    # هماهنگ‌کننده خط لوله ممیزی
+│       ├── providers/             # یکپارچه‌سازی ارائه‌دهندگان
+│       │   ├── base.ts            # کلاس پایه + helper اعتبارسنجی
+│       │   ├── registry.ts        # رجیستری ارائه‌دهندگان
+│       │   ├── pagespeed.ts       # Google PageSpeed Insights
+│       │   ├── searchconsole.ts   # Google Search Console (OAuth)
+│       │   ├── analytics.ts       # Google Analytics Data API (GA4)
+│       │   ├── bing.ts            # Bing Webmaster Tools
+│       │   ├── ahrefs.ts          # Ahrefs (پولی)
+│       │   ├── semrush.ts         # Semrush (پولی)
+│       │   ├── moz.ts             # Moz (پولی)
 │       │   └── optional-providers.ts # DataForSEO, SerpApi, Majestic
 │       ├── report/
-│       │   └── generator.ts        # تولیدکننده گزارش HTML مستقل
+│       │   └── generator.ts       # تولیدکننده گزارش HTML مستقل
 │       ├── security/
-│       │   ├── ssrf.ts              # محافظت SSRF + اعتبارسنجی URL
-│       │   └── credentials.ts      # رمزنگاری AES-256-GCM
+│       │   ├── ssrf.ts            # محافظت SSRF + اعتبارسنجی URL
+│       │   └── credentials.ts     # رمزنگاری AES-256-GCM
 │       ├── store/
-│       │   ├── providers.ts        # CRUD پیکربندی ارائه‌دهنده‌ها (رمزنگاری‌شده)
-│       │   └── ui.ts               # استور UI با Zustand
-│       ├── db.ts                   # تک‌نمونه Prisma client
-│       └── utils.ts                # helper مربوط به cn() در Tailwind
-├── .env.example                    # قالب متغیرهای محیطی
+│       │   ├── providers.ts       # CRUD تنظیمات ارائه‌دهنده (رمزنگاری‌شده)
+│       │   └── ui.ts              # Zustand UI store
+│       ├── db.ts                  # Prisma client singleton
+│       └── utils.ts               # helper Tailwind cn()
+├── .env.example                   # قالب متغیرهای محیطی
 ├── package.json
 ├── tsconfig.json
 └── README.md
 ```
 
-راه‌اندازی و نصب
+---
 
-پیش‌نیازها
+## 🚀 نصب و راه‌اندازی
 
-- Node.js 18+ یا Bun 1.0+
-- فایل‌سیستم سازگار با SQLite (بدون نیاز به دیتابیس خارجی)
+### 📋 پیش‌نیازها
 
-نصب
+- ✅ Node.js نسخه ۱۸ به بالا یا Bun نسخه ۱٫۰ به بالا
+- ✅ فایل‌سیستم سازگار با SQLite (بدون دیتابیس خارجی)
+
+### ⚡ نصب
 
 ```bash
 # نصب وابستگی‌ها
@@ -100,154 +183,229 @@ bun install
 
 # کپی قالب env و تنظیم کلید رمزنگاری
 cp .env.example .env
-# تولید یک کلید رمزنگاری قوی:
+
+# تولید کلید قوی رمزنگاری:
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-# خروجی را در فایل .env به‌عنوان CREDENTIAL_ENCRYPTION_KEY قرار دهید
+
+# خروجی را در .env در فیلد CREDENTIAL_ENCRYPTION_KEY قرار دهید
 
 # اعمال اسکیمای دیتابیس
 bun run db:push
 
 # اجرای سرور توسعه
 bun run dev
-# بازدید از http://localhost:3000
+# سپس آدرس http://localhost:3000 را باز کنید
 ```
 
-پیکربندی API
+---
 
-بخش API & Services را در سایدبار باز کنید تا هر ارائه‌دهنده را پیکربندی کنید:
+## 🔧 پیکربندی API
 
-1. روی لینک مستندات ارائه‌دهنده کلیک کنید تا API key / اطلاعات OAuth را دریافت کنید.
-2. اعتبارنامه‌ها را در فرم وارد کنید. کلید قبل از ذخیره‌سازی رمزنگاری می‌شود (AES-256-GCM).
-3. روی Save کلیک کنید تا ذخیره شود.
-4. روی Test کلیک کنید تا اعتبارسنجی اتصال واقعی در برابر API ارائه‌دهنده اجرا شود.
-5. نتیجه اعتبارسنجی تعیین می‌کند که آیا آن ارائه‌دهنده برای اسکن قابل انتخاب است یا خیر.
+به بخش **API & Services** در سایدبار بروید و هر ارائه‌دهنده را تنظیم کنید:
 
-راه‌اندازی حالت رایگان-محور
+> **۱.** روی لینک مستندات ارائه‌دهنده کلیک کنید تا API key / اطلاعات OAuth را دریافت کنید
+> **۲.** اطلاعات را وارد کنید — کلید قبل از ذخیره با **AES-256-GCM** رمزنگاری می‌شود
+> **۳.** روی **Save** کلیک کنید
+> **۴.** روی **Test** کلیک کنید تا اعتبارسنجی واقعی اتصال انجام شود
+> **۵.** نتیجه اعتبارسنجی مشخص می‌کند که آیا ارائه‌دهنده می‌تواند برای اسکن انتخاب شود یا خیر
 
-حداقل پیکربندی برای یک اسکن مفید:
-- Google PageSpeed Insights (رایگان، نیازمند Google API key)
-- هیچ ارائه‌دهنده دیگری لازم نیست — خزنده داخلی به‌صورت پیش‌فرض اجرا می‌شود
+### 🟢 راه‌اندازی Free-first (حداقلی)
 
-افزونه‌های پیشنهادی
+پیکربندی حداقلی برای یک اسکن مفید:
 
-- Google Search Console (رایگان، نیازمند OAuth): داده کلمات کلیدی و دیده‌شدن در جستجو
-- Bing Webmaster Tools (رایگان، نیازمند API key): دیده‌شدن در موتور جستجوی Bing
-- Ahrefs / Semrush / Moz (پولی): داده بک‌لینک
+- ✅ **Google PageSpeed Insights** (رایگان، نیاز به Google API key)
+- ✳️ هیچ ارائه‌دهنده دیگری لازم نیست — کراولر داخلی به‌صورت پیش‌فرض اجرا می‌شود
 
-مرجع API
+### 💡 افزودنی‌های پیشنهادی
 
-وب‌سایت‌ها
-- `GET /api/websites` — لیست وب‌سایت‌ها
-- `POST /api/websites` — ایجاد/به‌روزرسانی وب‌سایت
+| ارائه‌دهنده | نوع | فایده |
+|---|---|---|
+| **Google Search Console** | رایگان + OAuth | داده کلمات کلیدی و دیده‌شدن در جستجو |
+| **Bing Webmaster Tools** | رایگان + API key | دیده‌شدن در موتور جستجوی Bing |
+| **Ahrefs / Semrush / Moz** | 💎 پولی | داده بک‌لینک |
 
-اسکن‌ها
-- `GET /api/scans?websiteId=X&limit=N` — لیست اسکن‌ها
-- `POST /api/scans` — شروع اسکن جدید (ابتدا اعتبارسنجی؛ اجرای حسابرسی در پس‌زمینه)
-- `GET /api/scans/[id]` — دریافت جزئیات اسکن + مشکلات
-- `POST /api/scans/[id]/cancel` — لغو اسکن در حال اجرا
-- `GET /api/scans/[id]/report?type=detailed|executive` — تولید و دانلود گزارش HTML
-- `GET /api/scans/compare?a=ID1&b=ID2` — مقایسه دو اسکن
+---
 
-ارائه‌دهنده‌ها
-- `GET /api/providers` — لیست همه ارائه‌دهنده‌ها با وضعیت فعلی
-- `POST /api/providers/[name]` — ذخیره اعتبارنامه‌ها
-- `DELETE /api/providers/[name]` — حذف اعتبارنامه‌ها
-- `POST /api/providers/[name]/test` — اجرای اعتبارسنجی اتصال زنده
+## 📡 مرجع API
 
-اعتبارسنجی و داشبورد
-- `POST /api/validate` — اعتبارسنجی پیش از اسکن (اسکن را شروع نمی‌کند)
-- `GET /api/dashboard` — خلاصه داشبورد (وب‌سایت‌ها، اسکن‌های اخیر، سلامت ارائه‌دهنده‌ها)
+### 🌐 وب‌سایت‌ها
 
-ماتریس قابلیت ارائه‌دهنده‌ها
+| متد | مسیر | توضیح |
+|---|---|---|
+| `GET` | `/api/websites` | لیست وب‌سایت‌ها |
+| `POST` | `/api/websites` | ایجاد / به‌روزرسانی وب‌سایت |
 
-ارائه‌دهنده	فنی	On-Page	محتوا	عملکرد	بک‌لینک	کلمات کلیدی	محلی	سطح دسترسی	
-PageSpeed Insights	—	—	—	✓	—	—	—	پلن رایگان	
-Search Console	✓	—	—	—	—	✓	—	نیازمند OAuth	
-Google Analytics GA4	—	—	—	—	—	✓	—	نیازمند OAuth	
-Bing Webmaster	—	—	—	—	—	✓	—	پلن رایگان	
-Ahrefs	—	—	—	—	✓	✓	—	پولی	
-Semrush	—	—	—	—	✓	✓	—	پولی	
-Moz	—	—	—	—	✓	—	—	پولی	
-DataForSEO	—	—	—	—	✓	✓	—	پولی	
-SerpApi	—	—	—	—	—	✓	—	پلن رایگان (100/ماه)	
-Majestic	—	—	—	—	✓	—	—	پولی	
+### 🔍 اسکن‌ها
 
-نکات امنیتی
+| متد | مسیر | توضیح |
+|---|---|---|
+| `GET` | `/api/scans?websiteId=X&limit=N` | لیست اسکن‌ها |
+| `POST` | `/api/scans` | شروع اسکن جدید (ابتدا اعتبارسنجی، اجرای ممیزی در پس‌زمینه) |
+| `GET` | `/api/scans/[id]` | جزئیات اسکن + مشکلات |
+| `POST` | `/api/scans/[id]/cancel` | لغو اسکن در حال اجرا |
+| `GET` | `/api/scans/[id]/report?type=detailed\|executive` | تولید و دانلود گزارش HTML |
+| `GET` | `/api/scans/compare?a=ID1&b=ID2` | مقایسه دو اسکن |
 
-- رمزنگاری AES-256-GCM برای اعتبارنامه‌ها با کلیدی از متغیر محیطی `CREDENTIAL_ENCRYPTION_KEY`.
-- دسترسی به رازها فقط در بک‌اند — اعتبارنامه‌ها هرگز در پاسخ‌های API، لاگ‌ها یا گزارش‌ها برگردانده نمی‌شوند.
-- محافظت SSRF — خزنده بازه‌های IP خصوصی، اندپوینت‌های متادیتا و مقصد ریدایرکت‌ها را مسدود و دوباره اعتبارسنجی می‌کند.
-- محدودیت پروتکل — فقط URLهای `http://` و `https://` خزیده می‌شوند.
-- رعایت robots.txt — از قوانین User-agent: * و Allow/Disallow پیروی می‌کند (قابل تنظیم برای هر اسکن).
-- User-Agent قابل شناسایی — `Z-SEO-Auditor/1.0` در همه درخواست‌های خزنده اعلام می‌شود.
-- Throttling درخواست‌ها — هم‌زمانی، تایم‌اوت و محدودیت تلاش مجدد قابل تنظیم، برای جلوگیری از فشار روی سرور.
+### 🔌 ارائه‌دهندگان
 
-محدودیت‌های پلن رایگان
+| متد | مسیر | توضیح |
+|---|---|---|
+| `GET` | `/api/providers` | لیست همه ارائه‌دهندگان با وضعیت فعلی |
+| `POST` | `/api/providers/[name]` | ذخیره اطلاعات اعتبار |
+| `DELETE` | `/api/providers/[name]` | حذف اطلاعات اعتبار |
+| `POST` | `/api/providers/[name]/test` | اجرای اعتبارسنجی زنده اتصال |
 
-- خزنده داخلی: 1 تا 500 صفحه در هر اسکن (قابل تنظیم توسط کاربر). هر اسکن برای جلوگیری از فشار روی سرور مقصد، محدود است.
-- PageSpeed Insights: 25,000 درخواست در روز برای هر پروژه Google Cloud (سهمیه پیش‌فرض).
-- SerpApi: 100 جستجو در ماه در پلن رایگان.
-- Bing Webmaster: نیازمند مالکیت تأییدشده سایت؛ داده‌ها محدود به ترافیک جستجوی Bing هستند.
-- Ahrefs / Semrush / Moz / Majestic: بدون دسترسی رایگان به API؛ تحلیل کامل بک‌لینک/کلمات کلیدی نیازمند اشتراک پولی است.
-- Google Search Console / Analytics: نیازمند رضایت OAuth کاربر برای هر property تأییدشده.
+### ✅ اعتبارسنجی و داشبورد
 
-قوانین امتیازدهی سئو
+| متد | مسیر | توضیح |
+|---|---|---|
+| `POST` | `/api/validate` | اعتبارسنجی پیش از اسکن (اسکنی شروع نمی‌کند) |
+| `GET` | `/api/dashboard` | خلاصه داشبورد (وب‌سایت‌ها، اسکن‌های اخیر، سلامت ارائه‌دهندگان) |
 
-امتیاز کلی = میانگین وزنی امتیاز دسته‌ها. هر دسته از 100 شروع می‌شود و به ازای هر مشکل جریمه می‌گیرد:
+---
 
-شدت	جریمه	
-بحرانی	-25	
-بالا	-12	
-متوسط	-6	
-پایین	-2	
-اطلاعاتی	0	
+## 🎯 ماتریس قابلیت ارائه‌دهندگان
 
-وزن دسته‌ها: فنی 30%، On-Page 25%، محتوا 15%، عملکرد 15%، Off-Page (بک‌لینک + کلمات کلیدی) 15%.
+| ارائه‌دهنده | Tech | On-Page | Content | Perf | Backlinks | Keywords | Local | سطح |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|---|
+| **PageSpeed Insights** | — | — | — | ✅ | — | — | — | 🆓 Free tier |
+| **Search Console** | ✅ | — | — | — | — | ✅ | — | 🔑 OAuth |
+| **Google Analytics GA4** | — | — | — | — | — | ✅ | — | 🔑 OAuth |
+| **Bing Webmaster** | — | — | — | — | — | ✅ | — | 🆓 Free tier |
+| **Ahrefs** | — | — | — | — | ✅ | ✅ | — | 💎 Paid |
+| **Semrush** | — | — | — | — | ✅ | ✅ | — | 💎 Paid |
+| **Moz** | — | — | — | — | ✅ | — | — | 💎 Paid |
+| **DataForSEO** | — | — | — | — | ✅ | ✅ | — | 💎 Paid |
+| **SerpApi** | — | — | — | — | — | ✅ | — | 🆓 Free (100/ماه) |
+| **Majestic** | — | — | — | — | ✅ | — | — | 💎 Paid |
 
-دسته‌هایی که داده ندارند از مجموع نهایی حذف می‌شوند، نه اینکه صفر لحاظ شوند؛ بنابراین نبود داده باعث افت امتیاز نمی‌شود.
+---
 
-نکته: این امتیاز یک معیار تشخیصی تولیدشده توسط برنامه است، نه امتیاز رسمی رتبه‌بندی گوگل. از آن برای پیگیری پیشرفت در طول زمان در یک وب‌سایت مشخص استفاده کنید، نه برای مقایسه با سایت‌های دیگر.
+## 🔒 نکات امنیتی
 
-دستورات توسعه و پروداکشن
+| 🛡️ ویژگی | توضیح |
+|---|---|
+| **رمزنگاری AES-256-GCM** | اطلاعات اعتبار با کلید `CREDENTIAL_ENCRYPTION_KEY` از env رمزنگاری می‌شود |
+| **دسترسی فقط از بک‌اند** | اطلاعات اعتبار هرگز در پاسخ‌های API، لاگ‌ها یا گزارش‌ها بازگردانده نمی‌شود |
+| **محافظت SSRF** | کراولر محدوده‌های IP خصوصی، اندپوینت‌های metadata و مقصدهای redirect را مسدود می‌کند |
+| **محدودیت پروتکل** | فقط URLهای `http://` و `https://` کراول می‌شوند |
+| **احترام به robots.txt** | قواعد Allow/Disallow مربوط به `User-agent: *` رعایت می‌شود (قابل تنظیم برای هر اسکن) |
+| **User-Agent شناسایی‌پذیر** | `Z-SEO-Auditor/1.0` در تمام درخواست‌های کراولر اعلام می‌شود |
+| **محدودسازی درخواست** | همزمانی، timeout و تعداد retry قابل تنظیم برای جلوگیری از overload سرور |
+
+---
+
+## 📉 محدودیت‌های Free-tier
+
+> ⚠️ **توجه:** هر ارائه‌دهنده رایگان محدودیت‌های خودش را دارد. برنامه‌ریزی متناسب توصیه می‌شود.
+
+| ارائه‌دهنده | محدودیت |
+|---|---|
+| **کراولر داخلی** | ۱ تا ۵۰۰ صفحه در هر اسکن (قابل تنظیم توسط کاربر) |
+| **PageSpeed Insights** | ۲۵٬۰۰۰ درخواست در روز برای هر پروژه Google Cloud |
+| **SerpApi** | ۱۰۰ جستجو در ماه در پلن رایگان |
+| **Bing Webmaster** | نیاز به تأیید مالکیت سایت؛ داده محدود به ترافیک Bing |
+| **Ahrefs / Semrush / Moz / Majestic** | بدون دسترسی API رایگان؛ تحلیل کامل نیاز به اشتراک پولی دارد |
+| **Search Console / Analytics** | نیاز به رضایت OAuth کاربر برای هر property تأییدشده |
+
+---
+
+## 🧮 قوانین امتیازدهی SEO
+
+امتیاز کلی = **میانگین وزنی امتیازهای دسته‌بندی‌ها**. هر دسته از **۱۰۰** شروع می‌شود و به‌ازای هر مشکل کسر می‌شود:
+
+<table>
+<thead>
+<tr>
+<th>شدت</th>
+<th>کسر امتیاز</th>
+<th>نشان</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>🔴 Critical</td><td align="center">−۲۵</td><td>بحرانی</td></tr>
+<tr><td>🟠 High</td><td align="center">−۱۲</td><td>بالا</td></tr>
+<tr><td>🟡 Medium</td><td align="center">−۶</td><td>متوسط</td></tr>
+<tr><td>🔵 Low</td><td align="center">−۲</td><td>پایین</td></tr>
+<tr><td>⚪ Informational</td><td align="center">۰</td><td>اطلاعاتی</td></tr>
+</tbody>
+</table>
+
+### ⚖️ وزن دسته‌بندی‌ها
+
+```
+Technical     ████████████████████  30%
+On-Page       █████████████████     25%
+Content       ██████████            15%
+Performance   ██████████            15%
+Off-Page      ██████████            15%  (Backlinks + Keywords)
+```
+
+> 📌 دسته‌بندی‌هایی که **داده ندارند** از محاسبه امتیاز کل حذف می‌شوند — نه اینکه صفر حساب شوند. بنابراین نبود داده امتیاز را جریمه نمی‌کند.
+
+> ⚠️ **هشدار مهم:** این امتیاز یک **متریک تشخیصی تولیدشده توسط اپلیکیشن** است، نه یک رتبه رسمی Google. از آن برای ردیابی پیشرفت در یک سایت خاص استفاده کنید، نه برای مقایسه با سایت‌های دیگر.
+
+---
+
+## 💻 دستورات توسعه و Production
 
 ```bash
-# توسعه (بارگذاری خودکار با تغییر فایل)
+# 🚧 توسعه (ریلود خودکار با تغییر فایل)
 bun run dev
 
-# Lint
+# 🧹 Lint
 bun run lint
 
-# دیتابیس
-bun run db:push        # اعمال اسکیما روی SQLite
+# 🗄️ دیتابیس
+bun run db:push        # اعمال اسکیما به SQLite
 bun run db:generate    # بازتولید Prisma client
-bun run db:migrate     # ایجاد و اعمال migration
-bun run db:reset       # حذف و بازسازی (تخریبی)
+bun run db:migrate     # ایجاد و اجرای migration
+bun run db:reset       # حذف و بازسازی (مخرب!)
 
-# بیلد و اجرای پروداکشن (در پیش‌نمایش sandbox استفاده نمی‌شود)
+# 🏗️ Build و اجرای Production
 bun run build
 bun run start
 ```
 
-دیپلوی
+---
 
-این یک اپ استاندارد Next.js 16 است و می‌تواند روی هر هاستی که Node.js را پشتیبانی کند دیپلوی شود (Vercel، Netlify، Railway، Fly.io، سرور خودتان، Docker و غیره).
+## 🚢 استقرار
 
-چک‌لیست مهم دیپلوی:
-1. `DATABASE_URL` را روی یک مسیر فایل پایدار و قابل نوشتن تنظیم کنید.
-2. `CREDENTIAL_ENCRYPTION_KEY` را روی یک مقدار تصادفی قوی 64 کاراکتری hex تنظیم کنید. هرگز آن را بین محیط‌ها تکرار نکنید.
-3. اگر از دیتابیس فایل‌محور پیش‌فرض استفاده می‌کنید، بکاپ دوره‌ای SQLite را تنظیم کنید.
-4. یک reverse proxy (Caddy، nginx) با HTTPS جلوی سرور Next.js پیکربندی کنید.
+این یک اپلیکیشن استاندارد **Next.js 16** است و روی هر هاست سازگار با Node.js قابل استقرار است (Vercel، Netlify، Railway، Fly.io، سرور شخصی، Docker و غیره).
 
-رفع اشکال
+### ✅ چک‌لیست استقرار
 
-علامت	علت محتمل	راه‌حل	
-اسکن بلافاصله با خطای «Pre-scan validation failed» شکست می‌خورد	اعتبارنامه ارائه‌دهنده الزامی وجود ندارد یا نامعتبر است	Settings را باز کنید → اعتبارنامه‌ها را اصلاح کنید → دوباره اسکن را اجرا کنید	
-اسکن اجرا می‌شود اما «Backlink data unavailable» گزارش می‌دهد	هیچ ارائه‌دهنده بک‌لینکی پیکربندی نشده است	Ahrefs/Moz/Majestic را پیکربندی کنید (همه پولی هستند)	
-خزنده برای یک هدف «SSRF blocked» گزارش می‌دهد	URL به IP خصوصی یا اندپوینت متادیتا resolve می‌شود	از یک URL عمومی استفاده کنید؛ بررسی کنید DNS به یک IP عمومی resolve شود	
-PageSpeed API کد 403 برمی‌گرداند	API key نامعتبر است یا PageSpeed Insights API در پروژه Google Cloud فعال نیست	API key را دوباره بررسی کنید؛ API را در Google Cloud Console فعال کنید	
-Search Console خطای «permission denied» می‌دهد	توکن OAuth اسکوپ `webmasters.readonly` ندارد	با اسکوپ درست دوباره مجوز دهید	
-گزارش HTML باز نمی‌شود	مرورگر فایل محلی با JS را مسدود می‌کند	به‌جای ذخیره و باز کردن از روی دیسک، از گزینه «Open in new tab» در اپ استفاده کنید	
+- [ ] 🔗 `DATABASE_URL` را به یک مسیر پایدار و قابل نوشتن تنظیم کنید
+- [ ] 🔑 `CREDENTIAL_ENCRYPTION_KEY` را به یک مقدار تصادفی قوی ۶۴ کاراکتری hex تنظیم کنید — **هرگز بین محیط‌ها بازاستفاده نکنید**
+- [ ] 💾 اگر از دیتابیس فایلی پیش‌فرض استفاده می‌کنید، بکاپ دوره‌ای SQLite را پیکربندی کنید
+- [ ] 🔒 یک reverse proxy (Caddy, nginx) با HTTPS در جلوی سرور Next.js قرار دهید
 
-لایسنس
+---
 
-MIT
+## 🩺 عیب‌یابی
+
+| 🚨 علامت | 🎯 علت احتمالی | 🔧 راه‌حل |
+|---|---|---|
+| اسکن بلافاصله با خطای «Pre-scan validation failed» مواجه می‌شود | اطلاعات اعتبار ارائه‌دهنده الزامی ناقص یا نامعتبر است | به Settings بروید → اعتبارها را اصلاح کنید → اسکن را دوباره اجرا کنید |
+| اسکن اجرا می‌شود اما «Backlink data unavailable» گزارش می‌دهد | هیچ ارائه‌دهنده بک‌لینک پیکربندی نشده | Ahrefs/Moz/Majestic را پیکربندی کنید (همه پولی) |
+| کراولر برای یک هدف «SSRF blocked» گزارش می‌دهد | URL به IP خصوصی یا metadata endpoint resolve می‌شود | از URL عمومی استفاده کنید؛ DNS را بررسی کنید که به IP عمومی resolve شود |
+| PageSpeed API خطای ۴۰۳ برمی‌گرداند | API key نامعتبر یا API فعال نیست | API key را بررسی کرده و PageSpeed Insights API را در Google Cloud Console فعال کنید |
+| Search Console «permission denied» برمی‌گرداند | توکن OAuth فاقد اسکوپ `webmasters.readonly` است | با اسکوپ صحیح دوباره authorize کنید |
+| گزارش HTML باز نمی‌شود | مرورگر فایل محلی با JS را بلاک می‌کند | از گزینه «Open in new tab» در اپلیکیشن استفاده کنید، نه باز کردن مستقیم فایل |
+
+---
+
+<div align="center">
+
+## 📜 لایسنس
+
+**MIT** — استفاده آزاد، مشارکت خوشحال‌کننده! 🎉
+
+---
+
+**ساخته‌شده با ❤️ برای جامعه SEO**
+
+[![Star](https://img.shields.io/badge/⭐_ستاره_بدید-حمایت_کنید-yellow?style=for-the-badge)](https://github.com)
+[![Fork](https://img.shields.io/badge/🍴_فورک_کنید-مشارکت-blue?style=for-the-badge)](https://github.com)
+
+</div>

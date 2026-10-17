@@ -73,8 +73,10 @@ export function Sidebar() {
       </nav>
       <div className="p-3 border-t border-sidebar-border text-xs text-sidebar-foreground/50">
         <p>v1.0 · Free-first mode</p>
-        <p className="mt-1">Scores are app diagnostics, not Google rankings.</p>
+        <p className="mt-1">developed for <a href="https://jaheshclinic.ir">Jahesh Orthopedic Clinic</a>.</p>
+        <p className="mt-1">developed by: amirhoseini.</p>
       </div>
     </aside>
   );
 }
+

@@ -252,7 +252,8 @@ export function DashboardSection() {
       <div className="text-xs text-muted-foreground border-t border-border pt-4">
         <p>
           <TrendingUp className="inline h-3 w-3 mr-1" />
-          SEO scores are application-generated diagnostics, not official Google ranking scores. Use them to track improvements over time, not to benchmark against other sites.
+          <p>This Application is exclusively developed for <a href="https://jaheshclinic.ir">Jahesh Orthopedic Clinic</a>.</p>
+          <p>Developed by <b>amirhoseini</b> </p>
         </p>
       </div>
     </div>

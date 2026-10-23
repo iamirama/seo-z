@@ -266,43 +266,56 @@ export function NewAuditSection() {
           {providers.length === 0 ? (
             <p className="text-sm text-muted-foreground">No providers registered.</p>
           ) : (
-            <div className="space-y-2">
-              <div className="grid grid-cols-[1fr_80px_80px_80px] gap-2 text-xs font-medium text-muted-foreground px-2">
-                <div>Provider</div>
-                <div className="text-center">Required</div>
-                <div className="text-center">Optional</div>
-                <div className="text-center">Status</div>
-              </div>
-              {providers.map((p) => {
-                const isReq = requiredProviders.includes(p.metadata.key);
-                const isOpt = optionalProviders.includes(p.metadata.key);
-                const tierLabel = p.metadata.tier.replace(/_/g, ' ');
-                return (
-                  <div key={p.metadata.key} className="grid grid-cols-[1fr_80px_80px_80px] gap-2 items-center rounded-md border p-2">
-                    <div className="min-w-0">
-                      <div className="font-medium truncate">{p.metadata.name}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {tierLabel} · {p.metadata.authMethod}
-                        {!p.configured && ' · not configured'}
-                      </div>
-                    </div>
-                    <div className="flex justify-center">
-                      <Checkbox checked={isReq} onCheckedChange={() => toggleProvider(p.metadata.key, true)} disabled={!p.configured} />
-                    </div>
-                    <div className="flex justify-center">
-                      <Checkbox checked={isOpt} onCheckedChange={() => toggleProvider(p.metadata.key, false)} disabled={!p.configured} />
-                    </div>
-                    <div className="flex justify-center">
-                      {p.lastTestResult ? (
-                        <ConnectionStateBadge state={p.lastTestResult.state as any} />
-                      ) : (
-                        <Badge variant="secondary">N/A</Badge>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <div className="space-y-3">
+  {/* هدر جدول - فقط در دسکتاپ دیده می‌شه */}
+  <div className="hidden md:grid grid-cols-[1fr_80px_80px_100px] gap-2 text-xs font-medium text-muted-foreground px-2 pb-2 border-b">
+    <div>Provider</div>
+    <div className="text-center">Required</div>
+    <div className="text-center">Optional</div>
+    <div className="text-center">Status</div>
+  </div>
+  
+  {providers.map((p) => {
+    const isReq = requiredProviders.includes(p.metadata.key);
+    const isOpt = optionalProviders.includes(p.metadata.key);
+    const tierLabel = p.metadata.tier.replace(/_/g, ' ');
+    return (
+      <div 
+        key={p.metadata.key} 
+        className="flex flex-col md:grid md:grid-cols-[1fr_80px_80px_100px] gap-3 md:gap-2 md:items-center rounded-md border p-3"
+      >
+        {/* نام پرووایدر و اطلاعات */}
+        <div className="min-w-0 pb-2 md:pb-0 border-b md:border-b-0">
+          <div className="font-medium break-words">{p.metadata.name}</div>
+          <div className="text-xs text-muted-foreground break-words">
+            {tierLabel} · {p.metadata.authMethod}
+            {!p.configured && ' · not configured'}
+          </div>
+        </div>
+
+        {/* در موبایل به صورت ردیف افقی و در دسکتاپ ستونی */}
+        <div className="flex md:contents items-center justify-between gap-4">
+          <div className="flex flex-col items-center gap-1 md:flex-row md:justify-center">
+            <span className="text-[10px] text-muted-foreground md:hidden">Required</span>
+            <Checkbox checked={isReq} onCheckedChange={() => toggleProvider(p.metadata.key, true)} disabled={!p.configured} />
+          </div>
+          <div className="flex flex-col items-center gap-1 md:flex-row md:justify-center">
+            <span className="text-[10px] text-muted-foreground md:hidden">Optional</span>
+            <Checkbox checked={isOpt} onCheckedChange={() => toggleProvider(p.metadata.key, false)} disabled={!p.configured} />
+          </div>
+          <div className="flex flex-col items-center gap-1 md:flex-row md:justify-center">
+            <span className="text-[10px] text-muted-foreground md:hidden">Status</span>
+            {p.lastTestResult ? (
+              <ConnectionStateBadge state={p.lastTestResult.state as any} />
+            ) : (
+              <Badge variant="secondary">N/A</Badge>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  })}
+</div>
           )}
         </CardContent>
       </Card>
